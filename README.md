@@ -1,6 +1,7 @@
 # Breast Cancer Diagnosis — CNN + LLM Pipeline
 
 **Author:** Maryam Rafaqat  
+**GitHub:** [mary270/breast-cancer-pipeline](https://github.com/mary270/breast-cancer-pipeline)  
 **Dataset:** [BreakHis on Kaggle](https://www.kaggle.com/datasets/ambarish/breakhis)  
 **Models:** [HuggingFace — breast-cancer-densenet121](https://huggingface.co/MaryamRafaqat/breast-cancer-densenet121)
 
