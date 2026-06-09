@@ -1,0 +1,12 @@
+# CPU-only requirements — no CUDA, no NVIDIA downloads
+# torch is installed separately in Dockerfile using CPU-only wheel
+tensorflow-cpu==2.16.1
+opencv-python-headless==4.9.0.80
+numpy==1.26.4
+requests==2.31.0
+rouge-score==0.1.2
+transformers==4.40.2
+bert-score==0.3.13
+matplotlib==3.8.4
+Pillow==10.3.0
+scipy==1.13.1

@@ -1,0 +1,16 @@
+name        = "Setup & Verify Models"
+description = "Verify that all required CNN model files are present and loadable."
+
+inputs  = []
+outputs = ["model_status.json"]
+
+[container]
+image = "breast-cancer-pipeline:latest"
+
+[scripts]
+run = "run.sh"
+
+[params.models_dir]
+type    = "string"
+default = "/workspace/models"
+hint    = "Path to folder containing binary_model.h5, benign_subtype_model.h5, malignant_subtype_model.h5"

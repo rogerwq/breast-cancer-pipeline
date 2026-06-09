@@ -1,0 +1,11 @@
+name        = "Display Final Results"
+description = "Prints the final formatted report and evaluation scores to the Silva console."
+
+inputs  = ["patient_report.txt", "evaluation_scores.json", "confidence_chart.png"]
+outputs = ["final_summary.txt"]
+
+[container]
+image = "breast-cancer-pipeline:latest"
+
+[scripts]
+run = "run.sh"

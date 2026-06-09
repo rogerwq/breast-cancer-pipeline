@@ -1,0 +1,28 @@
+# Browser profiles / Gemini
+.gemini/
+
+# Model files (too large for GitHub — hosted on HuggingFace)
+models/
+*.h5
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# Job outputs (generated at runtime)
+*/outputs/
+cnn_prediction.json
+patient_report.txt
+evaluation_scores.json
+confidence_chart.png
+final_summary.txt
+model_status.json
+
+# Silva temp files
+silva-*/
+
+# OS files
+.DS_Store
+Thumbs.db

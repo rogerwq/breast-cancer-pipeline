@@ -1,0 +1,13 @@
+name        = "01 - CNN Inference"
+description = "Run DenseNet121 on input image — binary + subtype classification."
+
+inputs  = []
+outputs = ["cnn_prediction.json", "confidence_chart.png"]
+
+depends_on = ["00_setup_models"]
+
+[container]
+docker_image = "breast-cancer-pipeline:latest"
+
+[scripts]
+run = "run.sh"

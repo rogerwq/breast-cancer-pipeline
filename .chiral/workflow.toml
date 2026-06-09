@@ -1,0 +1,18 @@
+name        = "breast-cancer-diagnosis-cnn-llm"
+description = """
+AI-assisted breast cancer classification and patient report generation.
+Uses DenseNet121 (CNN) to classify BreakHis histopathology images as
+benign/malignant with subtype detection, then generates a full patient
+advisory report via a local LLM (Ollama phi3:mini — CPU-compatible).
+
+Steps:
+  00 → verify model files are present
+  01 → run CNN inference on input image
+  02 → generate LLM patient report
+  03 → display final formatted results
+"""
+
+[dependencies]
+01_cnn_inference   = ["00_setup_models"]
+02_llm_report      = ["01_cnn_inference"]
+03_display_results = ["02_llm_report"]

@@ -1,0 +1,7 @@
+{
+  "models_dir"   : "/workspace/models",
+  "image_path"   : "/workspace/input_files/sample_image.png",
+  "ollama_model" : "mistral",
+  "ollama_host"  : "http://host.docker.internal:11434",
+  "max_tokens"   : 700
+}

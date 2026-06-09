@@ -1,0 +1,26 @@
+name        = "CNN Inference"
+description = """
+Run the two-stage DenseNet121 pipeline on an input histopathology image.
+Stage 1: binary classification (benign vs malignant).
+Stage 2: subtype classification (4 benign or 4 malignant subtypes).
+Outputs a structured JSON with confidence percentages and differential.
+"""
+
+inputs  = ["model_status.json"]
+outputs = ["cnn_prediction.json", "confidence_chart.png"]
+
+[container]
+image = "breast-cancer-pipeline:latest"
+
+[scripts]
+run = "run.sh"
+
+[params.image_path]
+type    = "string"
+default = "/workspace/input_files/sample_image.png"
+hint    = "Path to the input breast histopathology image (.png or .jpg)"
+
+[params.models_dir]
+type    = "string"
+default = "/workspace/models"
+hint    = "Path to the folder containing the three .h5 model files"

@@ -1,0 +1,13 @@
+name        = "02 - LLM Patient Report"
+description = "Generate 7-section patient advisory report using Mistral-7B via Ollama."
+
+inputs  = ["cnn_prediction.json"]
+outputs = ["patient_report.txt", "evaluation_scores.json"]
+
+depends_on = ["01_cnn_inference"]
+
+[container]
+docker_image = "breast-cancer-pipeline:latest"
+
+[scripts]
+run = "run.sh"

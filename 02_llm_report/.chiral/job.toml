@@ -1,0 +1,32 @@
+name        = "LLM Patient Report"
+description = """
+Generates a 7-section patient-friendly medical report using a local LLM
+(Ollama phi3:mini — runs on CPU, no NVIDIA required).
+Sections: What We Found, Is This Dangerous, See a Doctor, Treatment,
+Chemotherapy, Warning Signs, Disclaimer.
+Also computes ROUGE and BERTScore vs. verified medical ground truth.
+"""
+
+inputs  = ["cnn_prediction.json"]
+outputs = ["patient_report.txt", "evaluation_scores.json"]
+
+[container]
+image = "breast-cancer-pipeline:latest"
+
+[scripts]
+run = "run.sh"
+
+[params.ollama_model]
+type    = "string"
+default = "phi3:mini"
+hint    = "Ollama model name to use for report generation. Must be pulled first with: ollama pull phi3:mini"
+
+[params.ollama_host]
+type    = "string"
+default = "http://host.docker.internal:11434"
+hint    = "Ollama API host. Use host.docker.internal to reach Ollama running on your PC from inside Docker."
+
+[params.max_tokens]
+type    = "integer"
+default = 700
+hint    = "Maximum tokens to generate for the report"

@@ -1,0 +1,13 @@
+name        = "03 - Display Results"
+description = "Print final report and evaluation scores to console."
+
+inputs  = ["patient_report.txt", "evaluation_scores.json"]
+outputs = ["final_summary.txt"]
+
+depends_on = ["02_llm_report"]
+
+[container]
+docker_image = "breast-cancer-pipeline:latest"
+
+[scripts]
+run = "run.sh"
