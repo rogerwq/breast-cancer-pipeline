@@ -4,7 +4,7 @@ WORKDIR /workspace
 
 # System dependencies for OpenCV + curl for Ollama install
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        libgl1 libglib2.0-0 libsm6 libxrender1 libxext6 curl \
+        libgl1 libglib2.0-0 libsm6 libxrender1 libxext6 curl zstd \
     && rm -rf /var/lib/apt/lists/*
 
 # Step 1: Install CPU-only PyTorch FIRST using the official CPU wheel index.
