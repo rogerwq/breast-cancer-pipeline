@@ -199,7 +199,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--prediction',   default='cnn_prediction.json')
     parser.add_argument('--ollama_model', default='mistral')
-    parser.add_argument('--ollama_host',  default='http://host.docker.internal:11434')
+    parser.add_argument('--ollama_host',  default='http://localhost:11434')
     parser.add_argument('--max_tokens',   type=int, default=450)
     args = parser.parse_args()
 

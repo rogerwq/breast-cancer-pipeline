@@ -18,13 +18,8 @@ run = "run.sh"
 
 [params.ollama_model]
 type    = "string"
-default = "phi3:mini"
-hint    = "Ollama model name to use for report generation. Must be pulled first with: ollama pull phi3:mini"
-
-[params.ollama_host]
-type    = "string"
-default = "http://host.docker.internal:11434"
-hint    = "Ollama API host. Use host.docker.internal to reach Ollama running on your PC from inside Docker."
+default = "mistral"
+hint    = "Ollama model name. Must be baked into the image or pulled before running."
 
 [params.max_tokens]
 type    = "integer"

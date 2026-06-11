@@ -2,9 +2,9 @@ FROM python:3.11-slim
 
 WORKDIR /workspace
 
-# System dependencies for OpenCV
+# System dependencies for OpenCV + curl for Ollama install
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        libgl1 libglib2.0-0 libsm6 libxrender1 libxext6 \
+        libgl1 libglib2.0-0 libsm6 libxrender1 libxext6 curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Step 1: Install CPU-only PyTorch FIRST using the official CPU wheel index.
@@ -28,5 +28,11 @@ RUN chmod +x /workspace/00_setup_models/run.sh \
              /workspace/01_cnn_inference/run.sh \
              /workspace/02_llm_report/run.sh \
              /workspace/03_display_results/run.sh
+
+# Install Ollama and bake in the mistral model
+RUN curl -fsSL https://ollama.com/install.sh | sh
+RUN ollama serve & \
+    until curl -s http://localhost:11434/api/tags > /dev/null 2>&1; do sleep 1; done && \
+    ollama pull mistral
 
 CMD ["/bin/bash"]

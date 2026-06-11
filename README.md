@@ -46,9 +46,9 @@ breast-cancer-pipeline/
 | Requirement | Install |
 |---|---|
 | Docker Desktop | https://www.docker.com/products/docker-desktop |
-| Ollama | https://ollama.com/download |
-| Mistral-7B model | `ollama pull mistral` |
 | Silva | https://github.com/chiral-data/silva |
+
+Ollama and Mistral-7B are bundled inside the Docker image — no separate installation required.
 
 ### Step 1 — Download model files
 
@@ -74,6 +74,8 @@ A sample image is already included in this repo.
 ```bash
 docker build -t breast-cancer-pipeline:latest .
 ```
+
+> Note: the build downloads Mistral-7B (~4.1GB) into the image. This is a one-time step.
 
 ### Step 4 — Run with Silva
 
@@ -105,14 +107,11 @@ docker run --rm \
   -e PARAM_IMAGE_PATH=/workspace/input_files/sample_image.png \
   breast-cancer-pipeline:latest bash run.sh
 
-# Job 02 — Mistral-7B report (requires Ollama running)
+# Job 02 — Mistral-7B report (Ollama runs inside the container)
 docker run --rm \
   -v $(pwd)/01_cnn_inference/outputs:/workspace/inputs \
   -v $(pwd)/02_llm_report:/workspace/job \
   -w /workspace/job \
-  --add-host=host.docker.internal:host-gateway \
-  -e PARAM_OLLAMA_MODEL=mistral \
-  -e PARAM_OLLAMA_HOST=http://host.docker.internal:11434 \
   breast-cancer-pipeline:latest \
   bash -c "cp /workspace/inputs/cnn_prediction.json . && bash run.sh"
 
@@ -171,6 +170,7 @@ The models were trained on the BreakHis dataset using Kaggle GPU notebooks:
 ## Notes
 
 - The pipeline runs fully on **CPU — no NVIDIA GPU required**
-- Mistral-7B runs locally via Ollama (Q4 quantized, ~4.1GB)
+- Ollama and Mistral-7B (Q4 quantized, ~4.1GB) are baked into the Docker image — no external services needed
 - Report generation takes ~2–4 minutes on CPU
-- BERTScore evaluation requires torch>=2.4 (rebuild image after first run)
+- The Docker image is ~8GB total due to the bundled model
+- BERTScore evaluation requires torch>=2.4 (already included in `requirements_silva.txt`)
