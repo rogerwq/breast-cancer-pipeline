@@ -18,6 +18,15 @@ RUN pip install --no-cache-dir --timeout 300 \
 COPY requirements_silva.txt .
 RUN pip install --no-cache-dir --timeout 300 -r requirements_silva.txt
 
+# Download CNN model files from HuggingFace
+RUN mkdir -p /workspace/models && \
+    curl -fsSL -o /workspace/models/binary_model.h5 \
+        https://huggingface.co/MaryamRafaqat/breast-cancer-densenet121/resolve/main/binary_model.h5 && \
+    curl -fsSL -o /workspace/models/benign_subtype_model.h5 \
+        https://huggingface.co/MaryamRafaqat/breast-cancer-densenet121/resolve/main/benign_subtype_model.h5 && \
+    curl -fsSL -o /workspace/models/malignant_subtype_model.h5 \
+        https://huggingface.co/MaryamRafaqat/breast-cancer-densenet121/resolve/main/malignant_subtype_model.h5
+
 # Copy all job scripts
 COPY 00_setup_models/    /workspace/00_setup_models/
 COPY 01_cnn_inference/   /workspace/01_cnn_inference/

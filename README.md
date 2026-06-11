@@ -48,36 +48,22 @@ breast-cancer-pipeline/
 | Docker Desktop | https://www.docker.com/products/docker-desktop |
 | Silva | https://github.com/chiral-data/silva |
 
-Ollama and Mistral-7B are bundled inside the Docker image — no separate installation required.
+Ollama, Mistral-7B, and the DenseNet121 CNN models are all bundled inside the Docker image — no separate downloads required.
 
-### Step 1 — Download model files
-
-Download the 3 model files from HuggingFace:  
-👉 https://huggingface.co/MaryamRafaqat/breast-cancer-densenet121
-
-Place them in a `models/` folder inside the repo:
-```
-breast-cancer-pipeline/
-└── models/
-    ├── binary_model.h5
-    ├── benign_subtype_model.h5
-    └── malignant_subtype_model.h5
-```
-
-### Step 2 — Add a test image
+### Step 1 — Add a test image
 
 Place any BreakHis `.png` histopathology image in `input_files/` and name it `sample_image.png`.  
 A sample image is already included in this repo.
 
-### Step 3 — Build the Docker image
+### Step 2 — Build the Docker image
 
 ```bash
 docker build -t breast-cancer-pipeline:latest .
 ```
 
-> Note: the build downloads Mistral-7B (~4.1GB) into the image. This is a one-time step.
+> Note: the build downloads the CNN model files from HuggingFace and Mistral-7B (~4.1GB) from Ollama. This is a one-time step and may take 10–20 minutes depending on your connection.
 
-### Step 4 — Run with Silva
+### Step 3 — Run with Silva
 
 ```bash
 export SILVA_WORKFLOW_HOME=/path/to/breast-cancer-pipeline
@@ -89,21 +75,17 @@ Select the `breast-cancer-diagnosis-cnn-llm` workflow and press Enter.
 ### Alternative — Run without Silva (Docker directly)
 
 ```bash
-# Job 00 — verify models
+# Job 00 — verify models (baked into image at /workspace/models)
 docker run --rm \
-  -v $(pwd)/models:/workspace/models \
   -v $(pwd)/00_setup_models:/workspace/job \
   -w /workspace/job \
-  -e PARAM_MODELS_DIR=/workspace/models \
   breast-cancer-pipeline:latest bash run.sh
 
 # Job 01 — CNN inference
 docker run --rm \
-  -v $(pwd)/models:/workspace/models \
   -v $(pwd)/input_files:/workspace/input_files \
   -v $(pwd)/01_cnn_inference:/workspace/job \
   -w /workspace/job \
-  -e PARAM_MODELS_DIR=/workspace/models \
   -e PARAM_IMAGE_PATH=/workspace/input_files/sample_image.png \
   breast-cancer-pipeline:latest bash run.sh
 
@@ -170,7 +152,7 @@ The models were trained on the BreakHis dataset using Kaggle GPU notebooks:
 ## Notes
 
 - The pipeline runs fully on **CPU — no NVIDIA GPU required**
-- Ollama and Mistral-7B (Q4 quantized, ~4.1GB) are baked into the Docker image — no external services needed
+- Ollama, Mistral-7B (Q4 quantized, ~4.1GB), and all three CNN model files are baked into the Docker image — no external downloads or services needed
 - Report generation takes ~2–4 minutes on CPU
-- The Docker image is ~8GB total due to the bundled model
+- The Docker image is ~10GB total due to the bundled models
 - BERTScore evaluation requires torch>=2.4 (already included in `requirements_silva.txt`)
